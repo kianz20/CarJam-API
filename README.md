@@ -33,5 +33,12 @@ client = carjam.Client()
 image = client.odometer_history('aaa000')
 ```
 
+## NZ Fleet Details
+```python
+import carjam
+client = carjam.Client()
+image = client.fleet_details(1)
+```
+
 ## Development and Contribution
 I welcome any contributions to this project, so feel free!
