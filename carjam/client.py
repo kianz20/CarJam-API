@@ -1,6 +1,7 @@
 import json
 import requests
 from queue import Queue
+from bs4 import BeautifulSoup
 
 class Client:
     
@@ -89,3 +90,41 @@ class Client:
         json_data = json.loads(raw_data[odometer_details_start:odometer_details_end])
         
         return json_data
+    
+    def fleet_details(self, page=1):
+        '''
+        Returns information about car registration counts
+        Example of output shape:
+        [{'make': 'FORD', 'model': 'RANGER', 'year': '2021', 'count': '12463', 'rank': '1'}]
+        '''
+        
+        page = (page - 1 ) * 20
+        
+        resp = self.session.post(f'https://www.carjam.co.nz/nz-fleet/?l=20&of={page}')
+        raw_data = resp.text
+        
+        fleet_details_start = raw_data.find("<tr class=\"record\">")
+        fleet_details_end = raw_data.find("</table>", fleet_details_start)
+        
+        fleet_table = raw_data[fleet_details_start:fleet_details_end]
+        
+        soup = BeautifulSoup(fleet_table, 'html.parser')
+        
+        records = []
+        
+        for row in soup.find_all('tr', class_='record'):
+            cells = row.find_all('td')
+            if len(cells) >= 5:
+                record = {
+                    "make": cells[0].get_text(strip=True),
+                    "model": cells[1].get_text(strip=True),
+                    "year": cells[2].get_text(strip=True),
+                    "count": cells[3].get_text(strip=True).replace(',', ''),  # Remove commas for numeric value
+                    "rank": cells[4].get_text(strip=True)
+                }
+                records.append(record)
+
+        print(records)
+
+        
+        return raw_data
