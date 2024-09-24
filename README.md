@@ -30,14 +30,20 @@ image = client.image('aaa000')
 ```python
 import carjam
 client = carjam.Client()
-image = client.odometer_history('aaa000')
+odo_details = client.odometer_history('aaa000')
 ```
 
 ## NZ Fleet Details
 ```python
 import carjam
 client = carjam.Client()
-image = client.fleet_details(1)
+fleet_details = client.fleet_details(1)
+```
+fleet_details can also take optional filter variables:
+```python
+import carjam
+client = carjam.Client()
+filtered_fleet_details = client.fleet_details(1, make='TOYOTA', query="cor", fuel_type="PETROL")
 ```
 
 ## Development and Contribution
