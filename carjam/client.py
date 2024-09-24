@@ -31,6 +31,32 @@ class Client:
 
         return json_data
     
+    def fuel_consumption(self, plate):
+        '''
+        Returns an a json object containing basic details about the car
+        Example of output shape:
+        "7.5 litres/100km"
+        '''
+        
+        resp = self.session.post(f'https://www.carjam.co.nz/car/?plate={plate}')
+        raw_data = resp.text
+        
+        fuel_consumption_start = raw_data.find("Fuel\n<div>\n<small>")
+        fuel_consumption_end = raw_data.find("</small>\n</div>\n</td>", fuel_consumption_start)
+          
+        fuel_consumption = (raw_data[fuel_consumption_start + 19:fuel_consumption_end-1])
+        
+        # Sometimes carjam needs a bit longer to generate the report, so call this again if the loading screen is shown
+        if (fuel_consumption.startswith('tml lang="en">')):
+            fuel_consumption = self.fuel_consumption(plate)
+            
+        # Strip the tilde (~) which is sometimes present for some reason
+        if (fuel_consumption.startswith('&#126;')):
+            fuel_consumption = fuel_consumption[7:]
+            
+
+        return fuel_consumption
+    
     def model_details(self, plate):
         '''
         Returns an a json object containing model details about the car
@@ -126,3 +152,4 @@ class Client:
                 records.append(record)
 
         return records
+    
