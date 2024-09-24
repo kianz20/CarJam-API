@@ -24,6 +24,27 @@ class TestCarMethods(unittest.TestCase):
         
         self.assertDictEqual(actual_details, expected_details)
         
+    def test_car_fuel_consumption_fkk351(self):
+        expected_consumption = '7.50 litres/100km'
+        
+        actual_consumption = self.client.fuel_consumption('fkk351')
+        
+        self.assertEqual(expected_consumption, actual_consumption)
+        
+    def test_car_fuel_consumption_nyk908(self):
+        expected_consumption = '3.60 litres/100km'
+        
+        actual_consumption = self.client.fuel_consumption('nyk908')
+        
+        self.assertEqual(expected_consumption, actual_consumption)
+        
+    def test_car_fuel_consumption_myw798(self):
+        expected_consumption = '6.70 litres/100km'
+        
+        actual_consumption = self.client.fuel_consumption('myw798')
+        
+        self.assertEqual(expected_consumption, actual_consumption)
+        
     def test_model_details(self):
         expected_details = {
             'car_id': 0, 
