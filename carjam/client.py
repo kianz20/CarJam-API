@@ -91,8 +91,9 @@ class Client:
         
         return json_data
     
-    def fleet_details(self, page=1):
+    def fleet_details(self, page=1, query="", make="", fuel_type=""):
         '''
+        https://www.carjam.co.nz/nz-fleet/?l=20&_ob=count+desc&make=ALFA+ROMEO&year=2022&motive_power=PETROL
         Returns information about car registration counts
         Example of output shape:
         [{'make': 'FORD', 'model': 'RANGER', 'year': '2021', 'count': '12463', 'rank': '1'}]
@@ -100,7 +101,7 @@ class Client:
         
         page = (page - 1 ) * 20
         
-        resp = self.session.post(f'https://www.carjam.co.nz/nz-fleet/?l=20&of={page}')
+        resp = self.session.post(f'https://www.carjam.co.nz/nz-fleet/?make={make}&l=20&of={page}&q={query}&motive_power={fuel_type}')
         raw_data = resp.text
         
         fleet_details_start = raw_data.find("<tr class=\"record\">")
@@ -124,7 +125,4 @@ class Client:
                 }
                 records.append(record)
 
-        print(records)
-
-        
-        return raw_data
+        return records
