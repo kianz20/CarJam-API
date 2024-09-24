@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>CarJam-API | Unofficial CarJam API</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="CarJam-API" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Unofficial CarJam API" />
+<meta property="og:description" content="Unofficial CarJam API" />
+<link rel="canonical" href="https://kianz20.github.io/CarJam-API/" />
+<meta property="og:url" content="https://kianz20.github.io/CarJam-API/" />
+<meta property="og:site_name" content="CarJam-API" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="CarJam-API" />
+<meta name="google-site-verification" content="AHZjQXMBuq4rCwzQCKtHS7xjoPW4DtufCUztht1UqRY" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","description":"Unofficial CarJam API","headline":"CarJam-API","name":"CarJam-API","url":"https://kianz20.github.io/CarJam-API/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/CarJam-API/assets/css/style.css?v=2e5917378d7884ccc642b69b9840876c73d21fb7">
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/CarJam-API/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+  <body>
+    <div class="container-lg px-3 my-5 markdown-body">
+      
+      <h1><a href="https://kianz20.github.io/CarJam-API/">CarJam-API</a></h1>
+      
+
+      <p><a href="https://www.carjam.co.nz/">CarJam</a> is a resource for finding information about cars registered in NZ.</p>
+
+<p>Unofficial Python API for Carjam</p>
+
+<p>This API may stop functioning if CarJam updates their website code.<br />
+It is provided “as-is” with no implied warranty.<br />
+We assume no responsibility for any future issues or interruptions in API functionality as a result of using this library.</p>
+
+<p>Find this library on PyPi <a href="https://pypi.org/project/carjam/">here</a></p>
+
+<h2 id="installation">Installation</h2>
+<p><code class="language-plaintext highlighter-rouge">pip install carjam</code></p>
+
+<h2 id="basic-car-details">Basic car details</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">carjam</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">carjam</span><span class="p">.</span><span class="n">Client</span><span class="p">()</span>
+<span class="n">details</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">basic_details</span><span class="p">(</span><span class="s">'fkk351'</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Returns an json object containing basic car details:</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"plate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FKK351"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"vin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7AT0H63WX10005902"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"chassis"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ACT10-0005902"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"current_vehicle_odometer_unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"K"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"reported_stolen"</span><span class="p">:</span><span class="w"> </span><span class="s2">"U"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"make"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TOYOTA"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"year_of_manufacture"</span><span class="p">:</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"vehicle_type"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"usage_level"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.91</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"average_fleet_mileage"</span><span class="p">:</span><span class="w"> </span><span class="mi">10500</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+<h2 id="car-model-details">Car model details</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">carjam</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">carjam</span><span class="p">.</span><span class="n">Client</span><span class="p">()</span>
+<span class="n">details</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">model_details</span><span class="p">(</span><span class="s">'fkk351'</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Returns a json object containing more specific model details:</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"car_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"chassis_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ACT10-0005902"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"make"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TOYOTA"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OPA"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"grade"</span><span class="p">:</span><span class="w"> </span><span class="s2">"I"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"manufacture_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2000-09"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TA-ACT10"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"engine"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1AZFSE"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"drive"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FF"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"transmission"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CVT"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div></div>
+
+<h2 id="car-fuel-consumption">Car fuel consumption</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">carjam</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">carjam</span><span class="p">.</span><span class="n">Client</span><span class="p">()</span>
+<span class="n">fuel_consumption</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">fuel_consumption</span><span class="p">(</span><span class="s">"fkk351"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Returns a string containing the fuel consumption of the car in l/100km:</p>
+<pre><code class="language-txt">7.50 litres/100km
+</code></pre>
+
+<h2 id="car-images">Car images</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">carjam</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">carjam</span><span class="p">.</span><span class="n">Client</span><span class="p">()</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">image</span><span class="p">(</span><span class="s">'fkk351'</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Returns a json object containing links to the current and original image</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"photos.carjam.co.nz/jph/_search_img_catalog_10102041_200404.jpg"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"orig_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"photos.carjam.co.nz/jph/_search_img_catalog_10102041_200404.jpg"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="car-odometer-details">Car Odometer Details</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">carjam</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">carjam</span><span class="p">.</span><span class="n">Client</span><span class="p">()</span>
+<span class="n">odo_details</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">odometer_history</span><span class="p">(</span><span class="s">'fkk351'</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Returns a json object array containing odometer history</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">odometer_date</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1678618800</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">odometer_reading</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">296662</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">odometer_unit</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">K</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">odometer_source</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">IW</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">days</span><span class="dl">"</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">seconds</span><span class="dl">"</span><span class="p">:</span> <span class="mi">604800</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">kms</span><span class="dl">"</span><span class="p">:</span> <span class="mi">359</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">daily_usage</span><span class="dl">"</span><span class="p">:</span> <span class="mf">51.285714285714285</span>
+  <span class="p">},</span>
+  <span class="p">...</span>
+<span class="p">]</span>
+</code></pre></div></div>
+
+<h2 id="nz-fleet-details">NZ Fleet Details</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">carjam</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">carjam</span><span class="p">.</span><span class="n">Client</span><span class="p">()</span>
+<span class="n">fleet_details</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">fleet_details</span><span class="p">(</span><span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Returns a JSON object containing the most registered cars in NZ, with 20 objects per call. 
+You can change the page parameter to retrieve additional sets of data.</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">make</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">FORD</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">model</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">RANGER</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">year</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2021</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">count</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">12463</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">rank</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1</span><span class="dl">"</span>
+  <span class="p">},</span>
+  <span class="p">...</span>
+<span class="p">]</span>
+</code></pre></div></div>
+
+<p>fleet_details() can also take optional filter variables:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">carjam</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">carjam</span><span class="p">.</span><span class="n">Client</span><span class="p">()</span>
+<span class="n">filtered_fleet_details</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">fleet_details</span><span class="p">(</span><span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">make</span><span class="o">=</span><span class="s">'TOYOTA'</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s">"cor"</span><span class="p">,</span> <span class="n">fuel_type</span><span class="o">=</span><span class="s">"PETROL"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Returns a JSON object containing the most registered cars in NZ filtered by the params, with 20 objects per call. 
+You can change the page parameter to retrieve additional sets of data.</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">make</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">TOYOTA</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">model</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">COROLLA</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">year</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2004</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">count</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">8428</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">rank</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">17</span><span class="dl">"</span>
+  <span class="p">},</span>
+  <span class="p">...</span>
+<span class="p">]</span>
+</code></pre></div></div>
+
+<h2 id="development-and-contribution">Development and Contribution</h2>
+<p>I welcome any contributions to this project, so feel free!</p>
+
+
+      
+      <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+        This site is open source. <a href="https://github.com/kianz20/CarJam-API/edit/main/README.md">Improve this page</a>.
+      </div>
+      
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+    <script>anchors.add();</script>
+  </body>
+</html>
