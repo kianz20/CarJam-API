@@ -2,6 +2,10 @@
 
 Unofficial Python API for Carjam
 
+This API may stop functioning if CarJam updates their website code.  
+It is provided "as-is" with no implied warranty.  
+We assume no responsibility for any future issues or interruptions in API functionality as a result of using this library.
+
 ## Installation
 ``pip install git+https://github.com/kianz20/CarJam-API``
 
@@ -17,6 +21,13 @@ details = client.basic_details('aaa000')
 import carjam
 client = carjam.Client()
 details = client.model_details('aaa000')
+```
+
+## Car fuel consumption
+```python
+import carjam
+client = carjam.Client()
+fuel_consumption = client.fuel_consumption("aaa000")
 ```
 
 ## Car images
