@@ -1,4 +1,5 @@
 import json
+import time
 import requests
 from queue import Queue
 from bs4 import BeautifulSoup
@@ -13,21 +14,42 @@ class Client:
             "content-type": "application/json",
         }
         
+    def isLoading(self, data):
+        return data.startswith('<!DOCTYPE html>')
+        
     def basic_details(self, plate):
         '''
-        Returns an a json object containing basic details about the car
+        Returns a JSON object containing basic details about the car.
         Example of output shape:
-        {"plate":"FKK351","vin":"7AT0H63WX10005902","chassis":"ACT10-0005902","current_vehicle_odometer_unit":"K","reported_stolen":"U",
-            "make":"TOYOTA","year_of_manufacture":2000,"vehicle_type":7,"usage_level":1.91,"average_fleet_mileage":10500}
+        {
+            "plate": "FKK351",
+            "vin": "7AT0H63WX10005902",
+            "chassis": "ACT10-0005902",
+            "current_vehicle_odometer_unit": "K",
+            "reported_stolen": "U",
+            "make": "TOYOTA",
+            "year_of_manufacture": 2000,
+            "vehicle_type": 7,
+            "usage_level": 1.91,
+            "average_fleet_mileage": 10500
+        }
         '''
-        
-        resp = self.session.post(f'https://www.carjam.co.nz/car/?plate={plate}')
-        raw_data = resp.text
-        
+        while True:
+            resp = self.session.post(f'https://www.carjam.co.nz/car/?plate={plate}')
+            raw_data = resp.text
+
+            if not self.isLoading(raw_data):
+                break 
+
+            time.sleep(.3)  
+
         basic_details_start = raw_data.find("window.report.idh.vehicle") + 28
         basic_details_end = raw_data.find("}", basic_details_start) + 1
         
-        json_data = json.loads(raw_data[basic_details_start:basic_details_end])
+        try:
+            json_data = json.loads(raw_data[basic_details_start:basic_details_end])
+        except json.JSONDecodeError:
+            return "Error decoding JSON data. No car exists under this plate, or this plate is not supported."
 
         return json_data
     
@@ -38,18 +60,20 @@ class Client:
         "7.5 litres/100km"
         '''
         
-        resp = self.session.post(f'https://www.carjam.co.nz/car/?plate={plate}')
-        raw_data = resp.text
+        while True:
+            resp = self.session.post(f'https://www.carjam.co.nz/car/?plate={plate}')
+            raw_data = resp.text
+
+            if not self.isLoading(raw_data):
+                break 
+
+            time.sleep(.3)  
         
         fuel_consumption_start = raw_data.find("Fuel\n<div>\n<small>")
         fuel_consumption_end = raw_data.find("</small>\n</div>\n</td>", fuel_consumption_start)
           
         fuel_consumption = (raw_data[fuel_consumption_start + 19:fuel_consumption_end-1])
         
-        # Sometimes carjam needs a bit longer to generate the report, so call this again if the loading screen is shown
-        if (fuel_consumption.startswith('tml lang="en">')):
-            fuel_consumption = self.fuel_consumption(plate)
-            
         # Strip the tilde (~) which is sometimes present for some reason
         if (fuel_consumption.startswith('&#126;')):
             fuel_consumption = fuel_consumption[7:]
@@ -65,13 +89,22 @@ class Client:
             "engine":"1AZFSE","drive":"FF","transmission":"CVT"}
         '''
         
-        resp = self.session.post(f'https://www.carjam.co.nz/car/?plate={plate}')
-        raw_data = resp.text
+        while True:
+            resp = self.session.post(f'https://www.carjam.co.nz/car/?plate={plate}')
+            raw_data = resp.text
+
+            if not self.isLoading(raw_data):
+                break 
+
+            time.sleep(.3)  
         
         model_details_start = raw_data.find("window.jph_search") + 50
         model_details_end = raw_data.find("\"image\"", model_details_start) - 1
         
-        json_data = json.loads(raw_data[model_details_start:model_details_end] + "}")
+        try:
+            json_data = json.loads(raw_data[model_details_start:model_details_end] + "}")
+        except json.JSONDecodeError:
+            return "Error decoding JSON data. No car exists under this plate, or this plate is not supported."
 
         return json_data
     
@@ -83,14 +116,23 @@ class Client:
             'orig_image': 'photos.carjam.co.nz/jph/_search_img_catalog_10102041_200404.jpg'}
         '''
         
-        resp = self.session.post(f'https://www.carjam.co.nz/car/?plate={plate}')
-        raw_data = resp.text
+        while True:
+            resp = self.session.post(f'https://www.carjam.co.nz/car/?plate={plate}')
+            raw_data = resp.text
+            
+            if not self.isLoading(raw_data):
+                break 
+
+            time.sleep(.3)  
         
         model_details_start = raw_data.find("window.jph_search") + 50
         image_url_start = raw_data.find("\"image\"", model_details_start) 
-        image_url_end = raw_data.find("}", image_url_start) + 1 
+        image_url_end = raw_data.find("}", image_url_start) + 1 \
         
-        json_data = json.loads("{" + raw_data[image_url_start:image_url_end])
+        try:
+            json_data = json.loads("{" + raw_data[image_url_start:image_url_end])
+        except json.JSONDecodeError:
+            return "Error decoding JSON data. No car exists under this plate, or this plate is not supported."
 
         # Fix the URLs by removing the leading `//` and replacing backslashes with forward slashes
         json_data['image'] = json_data['image'].replace('\\/', '/').replace('//', '')
@@ -113,7 +155,10 @@ class Client:
         odometer_details_start = raw_data.find("window.report.idh.odometer_history") + 37
         odometer_details_end = raw_data.find("]", odometer_details_start) + 1
         
-        json_data = json.loads(raw_data[odometer_details_start:odometer_details_end])
+        try:
+            json_data = json.loads(raw_data[odometer_details_start:odometer_details_end])
+        except json.JSONDecodeError:
+            return "Error decoding JSON data. No car exists under this plate, or this plate is not supported."
         
         return json_data
     
