@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='carjam',
-    version='1.0.1.post1',
+    version='1.0.2.post1',
     description='Unoffical Python API for CarJam NZ',
     long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
