@@ -2,6 +2,8 @@
 
 This unofficial python API allows you to interact with the site and retrieve data to use in other python projects.
 
+[![Downloads](https://static.pepy.tech/badge/carjam)](https://pepy.tech/project/carjam)
+
 This API may stop functioning if CarJam updates their website code.
 It is provided "as-is" with no implied warranty.
 No responsibility is assumed for any future issues or interruptions in API functionality as a result of using this library.
